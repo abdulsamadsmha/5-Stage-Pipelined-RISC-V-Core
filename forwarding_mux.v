@@ -24,3 +24,4 @@ input [31:0]ImmExtE
     end
     assign SrcBE = (ALUSrcE)?ImmExtE:WriteDataE;
 endmodule
+
