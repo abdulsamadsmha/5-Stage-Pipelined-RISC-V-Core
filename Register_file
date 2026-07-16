@@ -8,6 +8,7 @@ input RegWriteW,output [31:0] RD1,output [31:0]RD2
     initial begin
     for(i=0;i<32;i=i+1) register [i] = 32'b0;
     end
+    
     assign RD1 = (A1[4:0] == 0)?32'b0:register [A1[4:0]]; 
     assign RD2 = (A2[4:0] == 0)?32'b0:register [A2[4:0]];
     always@(negedge clk)begin
@@ -15,3 +16,4 @@ input RegWriteW,output [31:0] RD1,output [31:0]RD2
     register [RdW] <= ResultW;    
     end   
 endmodule
+
