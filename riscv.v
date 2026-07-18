@@ -135,19 +135,19 @@ csr_file u_csr (
 
 
 wire [31:0] ex_result = IsCsrE ? csr_rdata : ALUResultE;
-// ---------------- misaligned load/store exception (EX stage) ----------------
+
 wire is_store_E = MemWriteE;
 wire is_load_E  = (ResultSrcE == 2'b01);
 wire is_mem_E   = is_load_E | is_store_E;
 
 wire misaligned_addr =
-     (funct_3E[1:0] == 2'b10) ? (ALUResultE[1:0] != 2'b00) :   // word
-     (funct_3E[1:0] == 2'b01) ? (ALUResultE[0]   != 1'b0 ) :   // halfword
-                                1'b0;                           // byte: always aligned
+     (funct_3E[1:0] == 2'b10) ? (ALUResultE[1:0] != 2'b00) :   
+     (funct_3E[1:0] == 2'b01) ? (ALUResultE[0]   != 1'b0 ) :   
+                                1'b0;                           
 
 wire mem_misaligned_E = is_mem_E & misaligned_addr & Valid_E;
 
-// merge with existing (decode-origin) exception; decode exception has priority
+
 assign exc_E_final       = exc_E | mem_misaligned_E | instr_misaligned_E;
 assign exc_cause_E_final  = exc_E              ? exc_cause_E
                           : instr_misaligned_E ? 4'd0
@@ -159,10 +159,9 @@ assign trap_tval_E        = instr_misaligned_E ? PCTargetE
                           :                      32'b0;
 
 
-// gate the store so a misaligned store never commits to memory
 wire MemWriteE_safe = MemWriteE & ~mem_misaligned_E;
 wire RegWriteE_safe = RegWriteE & ~mem_misaligned_E & ~instr_misaligned_E;
-// --------------------------------------------------------------------------
+
     branch_target k9 (
     .PCE(PCE),
     .ImmExtE(ImmExtE),
