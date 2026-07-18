@@ -15,8 +15,8 @@ module csr_file(
   input [31:0] trap_mtval,
   input [31:0] trap_mcause
 );
-  // ---- machine-mode CSRs (extend this list when traps land) ----
-  reg [31:0] mscratch;            // 0x340
+
+  reg [31:0] mscratch;          
   reg [31:0] mstatus;
   reg [31:0] mie;
   reg [31:0] mtvec;
